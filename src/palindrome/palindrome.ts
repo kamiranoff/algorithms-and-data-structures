@@ -14,10 +14,28 @@
 // }
 
 // Solution 2
+// export function palindrome(str: string): boolean {
+//     const strArr = str.split("");
+//     for (let i = 0; i < strArr.length - 1; i++) {
+//
+//         if (i >= strArr.length / 2) {
+//             return true;
+//         }
+//
+//         if (strArr[i] !== strArr[strArr.length - 1 - i]) {
+//             return false;
+//         }
+//     }
+//
+//     return true;
+// }
+
+// Improved Solution 2
 export function palindrome(str: string): boolean {
     const strArr = str.split('');
+    const halfStringLef = Math.floor(strArr.length / 2);
 
-    for (let i = 0; i < strArr.length - 1; i++) {
+    for (let i = 0; i < halfStringLef; i++) {
         if (strArr[i] !== strArr[strArr.length - 1 - i]) {
             return false;
         }
