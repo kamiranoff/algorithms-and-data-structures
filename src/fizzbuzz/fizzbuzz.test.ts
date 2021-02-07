@@ -6,18 +6,19 @@ describe('fizzbuzz', () => {
     });
 
     test('Calling fizzbuzz with `5` prints out 5 statements', () => {
+        const spy = jest.spyOn(console, 'log').mockImplementation(() => null);
+
         fizzBuzz(5);
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        const spy = jest.spyOn(console, 'log').mockImplementation(() => null);
         expect(spy.mock.calls.length).toEqual(5);
         spy.mockClear();
     });
 
     test('Calling fizzbuzz with 15 prints out the correct values', () => {
-        fizzBuzz(15);
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
         const spy = jest.spyOn(console, 'log').mockImplementation(() => null);
 
+        fizzBuzz(15);
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         expect(spy.mock.calls[0][0]).toEqual(1);
         expect(spy.mock.calls[1][0]).toEqual(2);
         expect(spy.mock.calls[2][0]).toEqual('fizz');
