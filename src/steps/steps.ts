@@ -60,12 +60,3 @@ export function steps(n: number): void {
 // }
 
 // solution 4 -- recursion @TODO
-// export function steps(n: number): void {
-//     while (n > 0) {
-//         for (let i = 0; i < n; i++) {
-//             let line = '';
-//             if()
-//         }
-//     }
-//     steps(n - 1);
-// }
