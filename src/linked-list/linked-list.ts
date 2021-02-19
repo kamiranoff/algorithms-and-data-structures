@@ -13,56 +13,109 @@ export class LinkedList<T> {
     }
 
     insertFirst(data: T): void {
-        let next: Node<T> | null = null;
-        if (this.nodes.length) {
-            next = this.nodes[0];
-        }
-        const node = new Node(data, next);
-        this.nodes = [node, ...this.nodes];
-        this.head = this.nodes[0];
+        this.head = new Node(data, this.head);
     }
 
     size(): number {
-        return this.nodes.length;
+        let counter = 0;
+        let tmpHead = this.head;
+
+        while (tmpHead) {
+            counter++;
+            tmpHead = tmpHead.next || null;
+        }
+        return counter;
     }
 
-    getFirst(): Node<T> | undefined {
-        return this.nodes[0] || null;
+    getFirst(): Node<T> | null {
+        return this.head;
     }
 
-    getLast(): Node<T> | undefined {
-        return this.nodes[this.nodes.length - 1] || null;
+    getLast(): Node<T> | null {
+        let last = this.head;
+
+        if (!last) {
+            return null;
+        }
+
+        while (last) {
+            if (!last.next) {
+                return last;
+            }
+            last = last.next;
+        }
+
+        return null;
     }
 
     clear(): void {
-        this.nodes = [];
         this.head = null;
     }
 
     removeFirst(): void {
-        this.nodes = this.nodes.slice(1);
-        this.head = this.nodes[0] || null;
+        this.head = this.head?.next || null;
     }
 
     removeLast(): void {
-        this.nodes.pop();
-        if (!this.nodes.length) {
-            this.head = null;
+        if (!this.head) {
+            return;
         }
+
+        if (!this.head.next) {
+            this.head = null;
+            return;
+        }
+        let previous = this.head;
+        let node = this.head.next;
+
+        while (node.next) {
+            previous = node;
+            node = node.next;
+        }
+        previous.next = null;
     }
 
     insertLast(data: T): void {
-        const next = this.nodes[this.nodes.length - 1] || null;
-        this.nodes.push(new Node<T>(data, next));
+        const newNode = new Node(data, null);
+        const last = this.getLast();
+        if (!last) {
+            this.head = newNode;
+            return;
+        }
+        last.next = newNode;
     }
 
-    getAt(index: number): Node<T> | undefined {
-        return this.nodes[index] || null;
+    getAt(index: number): Node<T> | null {
+        let node = this.head;
+        for (let i = 0; i < index; i++) {
+            if (node?.next) {
+                node = node?.next;
+            }
+        }
+        return node;
     }
 
     removeAt(index: number): void {
-        if (this.getAt(index)) {
-            this.nodes.splice(index, 1);
+        if (index === 0 && this.head?.next) {
+            this.head = this.head.next;
+        }
+
+        const previous = this.getAt(index - 1);
+        let node = this.getAt(index);
+
+        if (!previous) {
+            return;
+        }
+
+        if (previous && node && !node.next) {
+            previous.next = null;
+            node = null;
+            return;
+        }
+
+        if (previous && node && node.next) {
+            previous.next = node.next;
+            return;
         }
     }
 
@@ -79,3 +132,13 @@ export class LinkedList<T> {
         return this.nodes.values();
     }
 }
+
+const l = new LinkedList();
+l.insertFirst(1);
+l.insertFirst(2);
+l.insertFirst(3);
+l.insertFirst(4);
+l.insertFirst(5);
+l.insertFirst(6);
+
+console.log(l);

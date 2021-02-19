@@ -87,14 +87,15 @@ describe('Linked list', () => {
 
         test('removes the first node when the list has a size of three', () => {
             const l = new List();
+            l.insertFirst('d');
             l.insertFirst('c');
             l.insertFirst('b');
             l.insertFirst('a');
             l.removeFirst();
-            expect(l.size()).toEqual(2);
+            expect(l.size()).toEqual(3);
             expect(l.getFirst()!.data).toEqual('b');
             l.removeFirst();
-            expect(l.size()).toEqual(1);
+            expect(l.size()).toEqual(2);
             expect(l.getFirst()!.data).toEqual('c');
         });
     });
@@ -141,7 +142,6 @@ describe('Linked list', () => {
         test('adds to the end of the list', () => {
             const l = new List();
             l.insertFirst('a');
-
             l.insertLast('b');
 
             expect(l.size()).toEqual(2);
