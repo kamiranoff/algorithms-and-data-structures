@@ -87,9 +87,14 @@ export class LinkedList<T> {
 
     getAt(index: number): Node<T> | null {
         let node = this.head;
+
+        if (!node) {
+            return null;
+        }
+
         for (let i = 0; i < index; i++) {
-            if (node?.next) {
-                node = node?.next;
+            if (node) {
+                node = node?.next || null;
             }
         }
         return node;
@@ -120,25 +125,45 @@ export class LinkedList<T> {
     }
 
     insertAt(data: T, index: number): void {
-        const next = this.nodes[index];
-        this.nodes.splice(index, 0, new Node<T>(data, next));
+        const newNode = new Node(data, null);
+
+        if (index === 0) {
+            this.insertFirst(data);
+            return;
+        }
+
+        let node = this.getAt(index);
+        const previousNode = this.getAt(index - 1);
+
+        if (!node && !previousNode) {
+            this.insertLast(data);
+            return;
+        }
+
+        if (!node) {
+            node = this.getLast();
+
+            if (!node) {
+                this.insertLast(data);
+                return;
+            }
+        }
+
+        if (previousNode) {
+            previousNode.next = newNode;
+            newNode.next = node;
+        }
     }
 
-    forEach(fn: (value: Node<T>, index: number, array: Node<T>[]) => void): void {
-        this.nodes.forEach(fn);
+    forEach(fn: (value: Node<T>) => void): void {
+        let node = this.head;
+        while (node) {
+            fn(node);
+            node = node.next || null;
+        }
     }
 
     [Symbol.iterator](): Iterator<Node<T>> {
         return this.nodes.values();
     }
 }
-
-const l = new LinkedList();
-l.insertFirst(1);
-l.insertFirst(2);
-l.insertFirst(3);
-l.insertFirst(4);
-l.insertFirst(5);
-l.insertFirst(6);
-
-console.log(l);

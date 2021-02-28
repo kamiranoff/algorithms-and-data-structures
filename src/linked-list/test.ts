@@ -262,7 +262,7 @@ describe('Linked list', () => {
         });
 
         test('insert a new node when index is out of bounds', () => {
-            const l = new List();
+            const l = new List<string>();
             l.insertLast('a');
             l.insertLast('b');
             l.insertAt('hi', 30);
