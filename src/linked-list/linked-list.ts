@@ -5,11 +5,9 @@ import { Node } from './Node';
 
 export class LinkedList<T> {
     public head: Node<T> | null;
-    private nodes: Node<T>[];
 
     constructor() {
         this.head = null;
-        this.nodes = [];
     }
 
     insertFirst(data: T): void {
@@ -163,7 +161,11 @@ export class LinkedList<T> {
         }
     }
 
-    [Symbol.iterator](): Iterator<Node<T>> {
-        return this.nodes.values();
+    *[Symbol.iterator](): Iterator<Node<T>> {
+        let node = this.head;
+        while (node) {
+            yield node;
+            node = node.next || null;
+        }
     }
 }
